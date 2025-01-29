@@ -1,0 +1,118 @@
+---
+title: "Zimbabwe Revised Agro-Ecological Zones (AEZs)"
+author: "Freedom K. Muranda"
+date: "29 January 2025"
+output:
+  word_document:
+    toc: true
+  pdf_document:
+    toc: true
+    fig_caption: true
+    number_sections: true
+  html_document: default
+---
+
+# Report on Zimbabwe’s New Agro-Ecological Zones (AEZs)
+
+## Introduction
+
+Agro-Ecological Zones (AEZs) are essential for guiding agricultural practices, natural resource management, and policy planning. Zimbabwe’s newly revised AEZs address the changing climate, evolving land use, and the need for more precise zoning that reflects current environmental conditions. These updates align agricultural recommendations with emerging climate patterns, improving resource allocation to boost productivity and resilience (Manatsa et al., 2020).
+
+## Revised AEZs
+
+The newly revised AEZs are divided into six primary zones: Region I, IIa, IIb, III, IV, Va, and Vb. These zones are characterised by factors such as rainfall patterns, temperature, altitude, and soil types, offering tailored insights into the agricultural potential of various regions (Manatsa et al., 2020). Key revisions include:
+
+-   **Region I**: High rainfall and cool temperatures, ideal for specialized crops like tea, coffee, and fruit.
+-   **Regions IIa and IIb**: Moderate rainfall areas supporting maize and tobacco production, with an increasing emphasis on drought-tolerant crops.
+-   **Region III**: Semi-arid, suited for livestock production and drought-tolerant crops.
+-   **Regions IV and V (Va and Vb)**: Arid to semi-arid zones with limited agricultural potential, focusing on extensive livestock systems and conservation agriculture.
+
+## Key Changes
+
+The revised AEZs reflect climate variability and its effects on rainfall patterns and crop suitability. Advanced Geographic Information Systems (GIS) techniques have been employed for mapping, providing more precise boundaries. Notable changes include:
+
+-   **Increased Detail**: Region V has been subdivided into Va and Vb to better distinguish agricultural suitability in the driest areas.
+-   **Climate Adaptation**: A stronger focus on drought-tolerant crops and water-efficient agricultural practices in marginal regions.
+-   **Modern Mapping Tools**: Improved zoning accuracy using GIS-based mapping techniques.
+
+## Implications
+
+These updated AEZs enhance Zimbabwe’s ability to implement climate-smart agricultural strategies. By offering precise guidance on land use, the zones help optimize crop selection, reduce climate risks, and encourage sustainable farming practices (Bofana et al., 2020). Policymakers and stakeholders can leverage this framework to address food security challenges, prioritize investments, and strengthen agricultural resilience (Bofana et al., 2020).
+
+## Conclusion
+
+The introduction of the new AEZs represents a significant advancement in adapting Zimbabwe’s agriculture to contemporary and future climate realities. They provide a solid foundation for informed decision-making, ensuring sustainable land use and improved livelihoods for farming communities. Ongoing research and monitoring are essential to fine-tune these zones and maximize their effectiveness.
+
+------------------------------------------------------------------------
+
+```{r}
+# Load necessary libraries
+library(sf)
+library(ggplot2)
+
+# Set the path to the Zimbabwe AEZ shapefile
+shapefile_path <- "/Volumes/USB DISK/Research Project 2024/New_regions/Zim_regions.shp"
+
+# Ensure the shapefile exists
+if (!file.exists(shapefile_path)) {
+  stop("Shapefile not found. Check the file path.")
+}
+
+# Load the shapefile
+zimbabwe_aezs <- st_read(shapefile_path)
+
+# Check and fix invalid geometries if necessary
+if (!all(st_is_valid(zimbabwe_aezs))) {
+  zimbabwe_aezs <- st_make_valid(zimbabwe_aezs)
+}
+
+# Print a summary of the data
+print(st_geometry_type(zimbabwe_aezs))
+print(names(zimbabwe_aezs))  # Show available columns
+
+# Generate the AEZ map with grid labels
+ggplot(data = zimbabwe_aezs) +
+  geom_sf(aes(fill = Regions), color = "black", size = 0.2) +
+  scale_fill_manual(
+    values = c(
+      "I" = "#1b9e77",
+      "IIa" = "#d95f02",
+      "IIb" = "#7570b3",
+      "III" = "#e7298a",
+      "IV" = "#66a61e",
+      "Va" = "#e6ab02",
+      "Vb" = "#a6761d"
+    ),
+    name = "AEZ Regions"
+  ) +
+  theme_minimal() +
+  coord_sf(
+    xlim = c(25, 34),  # Adjust x-axis (longitude) range if necessary
+    ylim = c(-22, -15), # Adjust y-axis (latitude) range if necessary
+    expand = TRUE
+  ) +
+  labs(
+    title = "Zimbabwe Revised Agro-Ecological Zones (AEZs)",
+    subtitle = "Natural Regions",
+    caption = "Source: ZINGSA",
+    x = "Longitude",
+    y = "Latitude"
+  ) +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 12),
+    plot.caption = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 12, face = "bold")
+  )
+
+# Save the map output as a PDF
+ggsave("Revised_AEZs.pdf", width = 10, height = 7)
+```
+
+## References
+
+Bofana, J., Zhang, M., Nabil, M., Wu, B., Tian, F., Liu, W., Zeng, H., Zhang, N., Nangombe, S.S., Cipriano, S.A., Phiri, E., Mushore, T.D., Kaluba, P., Mashonjowa, E. & Moyo, C. (2020) Comparison of Different Cropland Classification Methods under Diversified Agroecological Conditions in the Zambezi River Basin. *Remote Sensing*. 12 (13), 2096. <doi:10.3390/rs12132096>.
+
+Manatsa, D., Mushore, T.D., Gwitira, I., Wuta, M., Chemura, A., Shekede, M.D., Mugandani, R., Sakala, L.C., Ali, L.H. & Mupuro, J. (2020) *Revision of Zimbabwe’s agro-ecological zones. Produced by the Government of Zimbabwe under Zimbabwe National Geospatial and Space Agency (ZINGSA) for the Ministry of Higher and Tertiary Education, Innovation. Science and Technology Development*. Zimbabwe Government Printers. December.
