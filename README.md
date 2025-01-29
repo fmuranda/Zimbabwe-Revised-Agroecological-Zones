@@ -7,9 +7,9 @@ This repository contains the report on the revised Agro-Ecological Zones (AEZs) 
 
 ## Contents
 - **Report Files:**
-  - `Zimbabwe_Revised_AEZs.html` (HTML version)
-  - `Zimbabwe_Revised_AEZs.pdf` (PDF version with table of contents, figure captions, and numbered sections)
-  - `Zimbabwe_Revised_AEZs.docx` (Word document with table of contents)
+  - `Zim-AEZs.html` (HTML version)
+  - `Zim-AEZs.pdf` (PDF version with table of contents, figure captions, and numbered sections)
+  - `Zim-AEZs.docx` (Word document with table of contents)
 - **Code Files:**
   - `generate_AEZ_map.R` (R script to generate the AEZ map)
 - **Shapefile Data:**
